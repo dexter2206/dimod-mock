@@ -1,18 +1,36 @@
 """Main implementation"""
 import dimod
+import random
 from typing import Any, Dict, List, Tuple, TypeVar
 
 T = TypeVar("T")
 
 
+def random_bit_value():
+    """Returns random bit"""
+    return random.randint(0, 1)
+
+
 class SamplerMock(dimod.Sampler):
     """Class mocking arbitrary dimod unstructured sampler."""
-    def __init__(self, properties: Dict[Any, Any], parameters: Dict[Any, List[Any]]):
+    def __init__(self, properties: Dict[Any, Any], parameters: Dict[Any, List[Any]], get_random_bit=random_bit_value):
         self._properties = properties
         self._parameters = parameters
+        self.get_random_bit = get_random_bit
 
-    def sample(self, bqm, **parameters):
-        pass
+    def sample(self, bqm: dimod.BinaryQuadraticModel, **parameters):
+        for parameter in parameters:
+            if parameter not in self.parameters:
+                raise TypeError(f"Parameter {parameter} is not supported by this sampler.")
+
+        if bqm.vartype == dimod.Vartype.SPIN:
+            get_random_value = lambda: self.get_random_bit() * 2 - 1
+        else:
+            get_random_value = self.get_random_bit
+
+        samples = [{variable: get_random_value() for variable in bqm.variables}]
+
+        return dimod.SampleSet.from_samples_bqm(samples, bqm)
 
     @property
     def parameters(self) -> Dict[Any, List[Any]]:

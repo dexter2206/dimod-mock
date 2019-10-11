@@ -7,7 +7,7 @@ from dimodmock import SamplerMock
 EXAMPLE_CONFIGURATIONS = [
     ({}, {}),
     ({"max_num_reads": 100}, {"num_reads": ["max_num_reads"], "iterations": []}),
-    ({"j_range": [-1, 1]}, {"num_reads": []})
+    ({"j_range": [-1, 1]}, {"num_reads": []}),
 ]
 
 
@@ -26,7 +26,7 @@ def test_propagates_properties(properties, parameters):
 
 
 def test_rejects_unknown_parameters():
-    """SamplerMock should raise TypeError if uknown parameters are passed to sample* methods."""
+    """SamplerMock should raise TypeError if unknown parameters are passed to sample* methods."""
     mock = SamplerMock({}, {"num_reads": []})
 
     with pytest.raises(TypeError):
@@ -47,15 +47,19 @@ def test_accepts_known_properties():
     "vartype,random_bits,expected_variables_values",
     [
         (dimod.Vartype.SPIN, [0, 1, 0], [-1, 1, -1]),
-        (dimod.Vartype.BINARY, [0, 1, 1, 1, 1, 0], [0, 1, 1, 1, 1, 0])
-    ]
+        (dimod.Vartype.BINARY, [0, 1, 1, 1, 1, 0], [0, 1, 1, 1, 1, 0]),
+    ],
 )
 def tests_uses_get_random_bit(mocker, vartype, random_bits, expected_variables_values):
-    get_random_bit= mocker.Mock(side_effect=random_bits)
+    get_random_bit = mocker.Mock(side_effect=random_bits)
     mock = SamplerMock({}, {}, get_random_bit=get_random_bit)
-    bqm = dimod.BinaryQuadraticModel(linear={i: i for i in range(len(random_bits))}, quadratic={}, offset=0, vartype=vartype)
+    bqm = dimod.BinaryQuadraticModel(
+        linear={i: i for i in range(len(random_bits))}, quadratic={}, offset=0, vartype=vartype
+    )
     result = mock.sample(bqm)
-    assert all(result.first.sample[i] == expected_variables_values[i] for i in range(len(random_bits)))
+    assert all(
+        result.first.sample[i] == expected_variables_values[i] for i in range(len(random_bits))
+    )
 
 
 @pytest.mark.parametrize("num_reads", [1, 10, 20, 100])

@@ -18,7 +18,7 @@ class SamplerMock(dimod.Sampler):
         self._parameters = parameters
         self.get_random_bit = get_random_bit
 
-    def sample(self, bqm: dimod.BinaryQuadraticModel, **parameters):
+    def sample(self, bqm: dimod.BinaryQuadraticModel, **parameters) -> dimod.SampleSet:
         for parameter in parameters:
             if parameter not in self.parameters:
                 raise TypeError(f"Parameter {parameter} is not supported by this sampler.")
@@ -59,7 +59,7 @@ class StructuredMock(SamplerMock, dimod.Structured):
         self._edgelist = edgelist
 
     @dimod.decorators.bqm_structured
-    def sample(self, bqm, **parameters):
+    def sample(self, bqm, **parameters) -> dimod.SampleSet:
         return super().sample(bqm, **parameters)
 
     @property

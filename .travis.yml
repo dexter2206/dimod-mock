@@ -5,7 +5,8 @@ python:
 install:
 - pip install .
 - pip install codecov
-script: pytest tests
+script:
+- coverage run setup.py test
 deploy:
   provider: pypi
   user: dexter2206

@@ -5,6 +5,32 @@ from typing import Any, Dict, List, Tuple, TypeVar
 T = TypeVar("T")
 
 
+class SamplerMock(dimod.Sampler):
+    """Class mocking arbitrary dimod unstructured sampler."""
+    def __init__(self, properties: Dict[Any, Any], parameters: Dict[Any, List[Any]]):
+        self._properties = properties
+        self._parameters = parameters
+
+    def sample(self, bqm, **parameters):
+        pass
+
+    @property
+    def parameters(self) -> Dict[Any, List[Any]]:
+        """Returns dict of parameters of this mock-sampler.
+
+        See dimod's documentation for further reference on this property.
+        """
+        return self._parameters
+
+    @property
+    def properties(self) -> Dict[Any, Any]:
+        """Returns dict of properties of this sampler.
+
+        See dimod's documentation for further reference on this parameter.
+        """
+        return self._properties
+
+
 class StructuredMock(dimod.Sampler, dimod.Structured):
     """Class mocking arbitrary-structured sampler."""
 

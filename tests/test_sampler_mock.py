@@ -12,11 +12,13 @@ EXAMPLE_CONFIGURATIONS = [
 
 @pytest.mark.parametrize("properties,parameters", EXAMPLE_CONFIGURATIONS)
 def test_propagates_parameters(properties, parameters):
+    """SamplerMock should correctly return dict of parameters specified during initialization."""
     mock = SamplerMock(properties, parameters)
     assert mock.parameters == parameters
 
 
 @pytest.mark.parametrize("properties,parameters", EXAMPLE_CONFIGURATIONS)
 def test_propagates_properties(properties, parameters):
+    """SamplerMock should correctly return dict of properties specified during initialization."""
     mock = SamplerMock(properties, parameters)
     assert mock.properties == properties

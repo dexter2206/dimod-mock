@@ -15,5 +15,6 @@ deploy:
   server: https://test.pypi.org/legacy/
   password:
     secure: UtIrp+IT68UQ2+tpVaMtMfs9ci/CMfUSHgUAeDu/ylwQX/hT8/eM1InDrYO5iWpOzCzIIl3D0Umd6eefbwa6uZYZFKz+GcdurHIDvUBLOQ3Rpx1fMbqtAm5dKlHLM2QLRikrU6JRb4+dARBIQJ3F6BeMJn8uHF4CuIWxPPafyLfBqGnmC42YnO+ieXKk1jv6vzmJFuMT2yJeAp//CGMQCJ/svBiW/euBNKccgDcyEb+9UKmfBYIoC0OSQQZdFtiWuTJWFU33Se1smE5+nEwCAA3Ti9ywXmE1FaAZSowkOs8ioo6fSFp9pk3JTk4x90LJ/VeQFxxidY42qyG6K17UrD11U27P6t5YHBr2VeuGnxDb2qSmYEMVs86TVpqFRwCFUkpZfdQ5P4kEqy3nBavMPX49f1fbkOp5VRl9LVTyQHSiWKq6CtL7nxz2AzbpF6vUbv5KauqgwnyiJjW3TBtAL2hV+mo+PY6HgCwkHM2+Ameuf3lgF+mGWjuzg3sWwSGa8HMmU5NzzLgyv7gYTmBueML/mgMCQJ6b8Bi5LybLqfng3kRQzK4WWpWmJbmpla9GpfWbK/2MUHytezWXNOwH4ruVv1LYLkgVlwG0Q+cIKBXXHehEqmn0U8HSnpu4vH8tXfG4pNGYVA2r6ZLdP9KO4iTSM5WA2FUrrMltNGSFO7I=
+  skip_existing: true
   on:
     tags: true

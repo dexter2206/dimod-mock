@@ -1,4 +1,5 @@
 """Main implementation"""
+from abc import ABC
 import dimod
 import random
 from typing import Any, Dict, List, Tuple, TypeVar
@@ -9,6 +10,10 @@ T = TypeVar("T")
 def random_bit_value():
     """Returns random bit"""
     return random.randint(0, 1)
+
+
+class StructuredSampler(dimod.Sampler, dimod.Structured, ABC):
+    pass
 
 
 class SamplerMock(dimod.Sampler):
@@ -48,6 +53,10 @@ class SamplerMock(dimod.Sampler):
         """
         return self._properties
 
+    @classmethod
+    def from_sampler(cls, sampler: dimod.Sampler) -> "SamplerMock":
+        return cls(properties=sampler.properties, parameters=sampler.parameters)
+
 
 class StructuredMock(SamplerMock, dimod.Structured):
     """Class mocking arbitrary-structured sampler."""
@@ -71,3 +80,7 @@ class StructuredMock(SamplerMock, dimod.Structured):
     def edgelist(self) -> List[Tuple[T, T]]:
         """Returns list of all edges of this mock sampler."""
         return self._edgelist
+
+    @classmethod
+    def from_sampler(cls, sampler: StructuredSampler) -> "SamplerMock":
+        return cls(nodelist=sampler.nodelist, edgelist=sampler.edgelist, properties=sampler.properties, parameters=sampler.parameters)

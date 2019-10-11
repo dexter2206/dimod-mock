@@ -58,8 +58,9 @@ class StructuredMock(SamplerMock, dimod.Structured):
         self._nodelist = nodelist
         self._edgelist = edgelist
 
+    @dimod.decorators.bqm_structured
     def sample(self, bqm, **parameters):
-        pass
+        return super().sample(bqm, **parameters)
 
     @property
     def nodelist(self) -> List[T]:

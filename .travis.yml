@@ -7,6 +7,8 @@ install:
 - pip install codecov
 script:
 - coverage run setup.py test
+after_success:
+- codecov
 deploy:
   provider: pypi
   user: dexter2206

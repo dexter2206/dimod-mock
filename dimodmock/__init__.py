@@ -28,7 +28,7 @@ class SamplerMock(dimod.Sampler):
         else:
             get_random_value = self.get_random_bit
 
-        samples = [{variable: get_random_value() for variable in bqm.variables}]
+        samples = [{variable: get_random_value() for variable in bqm.variables} for _ in range(parameters.get("num_reads", 1))]
 
         return dimod.SampleSet.from_samples_bqm(samples, bqm)
 

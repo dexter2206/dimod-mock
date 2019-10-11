@@ -50,9 +50,17 @@ def test_accepts_known_properties():
         (dimod.Vartype.BINARY, [0, 1, 1, 1, 1, 0], [0, 1, 1, 1, 1, 0])
     ]
 )
-def tests_uses_get_random_bit(mock, vartype, random_bits, expected_variables_values):
-    get_random_bit= mock.Mock(side_effect=random_bits)
+def tests_uses_get_random_bit(mocker, vartype, random_bits, expected_variables_values):
+    get_random_bit= mocker.Mock(side_effect=random_bits)
     mock = SamplerMock({}, {}, get_random_bit=get_random_bit)
     bqm = dimod.BinaryQuadraticModel(linear={i: i for i in range(len(random_bits))}, quadratic={}, offset=0, vartype=vartype)
     result = mock.sample(bqm)
     assert all(result.first.sample[i] == expected_variables_values[i] for i in range(len(random_bits)))
+
+
+@pytest.mark.parametrize("num_reads", [1, 10, 20, 100])
+def test_respects_num_reads(num_reads):
+    """SampleMock.sample should correctly use num_reads parameter."""
+    mock = SamplerMock({}, {"num_reads": []})
+    result = mock.sample_qubo({(0, 1): 1, (0, 0): 2}, num_reads=num_reads)
+    assert len(result) == num_reads

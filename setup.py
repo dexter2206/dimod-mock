@@ -16,7 +16,7 @@ setup(
     ],
     python_requires='>=3.6',
     install_requires=["dimod"],
-    tests_require=["pytest", "pytest-mock"],
+    tests_require=["dimod", "pytest", "pytest-mock"],
     setup_requires=["setuptools_scm"],
     keywords="dimod mock testing"
 )
